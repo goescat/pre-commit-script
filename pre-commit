@@ -1,0 +1,28 @@
+#!/bin/sh
+
+files=$(git diff --cached --name-only --diff-filter=ACM | grep ".json$")
+nowpath=$(pwd)
+
+pass=true
+
+echo "files:"
+    if [ "$files" != "" ]; then
+        for file in ${files}; do
+            echo $file
+            result=$(python ${nowpath}/.git/hooks/json_checker.py ${file})
+
+            if [ "$result" != "" ]; then
+                echo $result
+                pass=false
+            fi
+        done
+    fi
+
+if $pass; then
+    exit 0
+else
+    echo ""
+    echo "COMMIT FAILED:"
+    echo "Some json files are invalid. Please fix errors and try committing again."
+    exit 1
+fi
