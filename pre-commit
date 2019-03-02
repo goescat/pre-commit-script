@@ -1,6 +1,6 @@
 #!/bin/sh
 
-files=$(git diff --cached --name-only --diff-filter=ACM | grep ".json$")
+files=$(git diff --cached --name-only --diff-filter=ACM | grep .json)
 nowpath=$(pwd)
 
 pass=true
