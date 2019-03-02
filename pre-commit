@@ -23,6 +23,6 @@ if $pass; then
 else
     echo ""
     echo "COMMIT FAILED:"
-    echo "Some json files are invalid. Please fix errors and try committing again."
+    echo "Some json files are invalid. Please fix errors and commit again."
     exit 1
 fi
