@@ -1,28 +1,40 @@
 #!/bin/sh
 
-files=$(git diff --cached --name-only --diff-filter=ACM | grep .json)
+json_files=$(git diff --cached --name-only --diff-filter=ACM | grep .json)
+xml_files=$(git diff --cached --name-only --diff-filter=ACM | grep .xml)
 nowpath=$(pwd)
 
 pass=true
 
 echo "files:"
-    if [ "$files" != "" ]; then
-        for file in ${files}; do
-            echo $file
-            result=$(python ${nowpath}/.git/hooks/json_checker.py ${file})
+if [ "$json_files" != "" ]; then
+    for json_files in ${json_files}; do
+        echo $json_files
+        result=$(python ${nowpath}/.git/hooks/json_checker.py ${json_files})
 
-            if [ "$result" != "" ]; then
-                echo $result
-                pass=false
-            fi
-        done
-    fi
+        if [ "$result" != "" ]; then
+            echo $result
+            pass=false
+        fi
+    done
+fi
+if [ "$xml_files" != "" ]; then
+    for xml_files in ${xml_files}; do
+        echo $xml_files
+        result=$(python ${nowpath}/.git/hooks/xml_checker.py ${xml_files})
+
+        if [ "$result" != "" ]; then
+            echo $result
+            pass=false
+        fi
+    done
+fi
 
 if $pass; then
     exit 0
 else
     echo ""
     echo "COMMIT FAILED:"
-    echo "Some json files are invalid. Please fix errors and commit again."
+    echo "Some files are invalid. Please fix errors and try committing again."
     exit 1
 fi
