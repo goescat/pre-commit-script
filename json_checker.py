@@ -4,11 +4,9 @@ import json
 def json_validation(data):
     try:
         json.loads(data)
-        #print "Everything is ok!"
-        return True
+        print "True"
     except ValueError as e:
         print "Error: ", e
-        return False
 
 file_path = sys.argv[1]
 file = open(file_path, 'r')
