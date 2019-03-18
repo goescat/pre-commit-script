@@ -12,6 +12,6 @@ file_path = sys.argv[1]
 
 try:
     parsefile(file_path)
-    #print "Everything is ok!"
+    print "True"
 except Exception, e:
     print "Error:", e
