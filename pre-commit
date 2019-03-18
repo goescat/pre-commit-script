@@ -12,7 +12,7 @@ if [ "$json_files" != "" ]; then
         echo $json_files
         result=$(python ${nowpath}/.git/hooks/json_checker.py ${json_files})
 
-        if [ "$result" != "" ]; then
+        if [ "$result" != "True" ]; then
             echo $result
             pass=false
         fi
@@ -23,7 +23,7 @@ if [ "$xml_files" != "" ]; then
         echo $xml_files
         result=$(python ${nowpath}/.git/hooks/xml_checker.py ${xml_files})
 
-        if [ "$result" != "" ]; then
+        if [ "$result" != "True" ]; then
             echo $result
             pass=false
         fi
