@@ -1,7 +1,7 @@
 #!/bin/sh
 
-json_files=$(git diff --cached --name-only --diff-filter=ACM | grep .json)
-xml_files=$(git diff --cached --name-only --diff-filter=ACM | grep .xml)
+json_files=$(git diff --cached --name-only --diff-filter=ACM | grep *.json)
+xml_files=$(git diff --cached --name-only --diff-filter=ACM | grep *.xml)
 nowpath=$(pwd)
 
 pass=true
