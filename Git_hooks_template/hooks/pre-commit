@@ -1,7 +1,11 @@
 #!/bin/sh
 
+##Get json and xml have git add
 json_files=$(git diff --cached --name-only --diff-filter=ACM | grep *.json)
 xml_files=$(git diff --cached --name-only --diff-filter=ACM | grep *.xml)
+py_files=$(git diff --cached --name-only --diff-filter=ACM | grep *.py)
+
+##Get now path
 nowpath=$(pwd)
 
 pass=true
@@ -10,8 +14,10 @@ echo "files:"
 if [ "$json_files" != "" ]; then
     for json_files in ${json_files}; do
         echo $json_files
+        ##Excute json checker
         result=$(python ${nowpath}/.git/hooks/json_checker.py ${json_files})
 
+        ##If result not True, pass will be false
         if [ "$result" != "True" ]; then
             echo $result
             pass=false
@@ -21,8 +27,23 @@ fi
 if [ "$xml_files" != "" ]; then
     for xml_files in ${xml_files}; do
         echo $xml_files
+        ##Excute xml checker
         result=$(python ${nowpath}/.git/hooks/xml_checker.py ${xml_files})
 
+        ##If result not True, pass will be false
+        if [ "$result" != "True" ]; then
+            echo $result
+            pass=false
+        fi
+    done
+fi
+if [ "$py_files" != "" ]; then
+    for py_files in ${py_files}; do
+        echo $py_files
+        ##Excute pycodestyle checker
+        result=$(python ${nowpath}/.git/hooks/pycodestyle_checker.py ${py_files})
+
+        ##If result not True, pass will be false
         if [ "$result" != "True" ]; then
             echo $result
             pass=false
@@ -30,8 +51,10 @@ if [ "$xml_files" != "" ]; then
     done
 fi
 
+##If pass is True, exit 0, can success commit
 if $pass; then
     exit 0
+##Else will exit 1, commit will fail
 else
     echo ""
     echo "COMMIT FAILED:"

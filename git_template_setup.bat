@@ -1,0 +1,1 @@
+git config --global init.templatedir C:\Git_hooks_template
